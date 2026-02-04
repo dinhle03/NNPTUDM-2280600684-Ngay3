@@ -1,0 +1,32 @@
+.img-product {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.product-row { position: relative; cursor: pointer; }
+
+/* Tooltip hiển thị Description khi di chuột (Yêu cầu 2) */
+.desc-box {
+    display: none;
+    position: absolute;
+    background: #212529;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    z-index: 1000;
+    width: 300px;
+    left: 20%;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    pointer-events: none;
+    font-size: 0.85rem;
+}
+
+.product-row:hover .desc-box { display: block; }
+
+.sortable { cursor: pointer; user-select: none; }
+.sortable:hover { background-color: #495057 !important; }
+
+.page-item { cursor: pointer; }

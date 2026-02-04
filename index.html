@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management Dashboard</title>
+    <meta name="referrer" content="no-referrer">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Dashboard Quản Lý Sản Phẩm</h2>
+
+    <!-- Toolbar: Tìm kiếm, Phân trang, Thêm, Export -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tiêu đề...">
+        </div>
+        <div class="col-md-2">
+            <select id="pageSizeSelect" class="form-select">
+                <option value="5">Hiển thị 5</option>
+                <option value="10" selected>Hiển thị 10</option>
+                <option value="20">Hiển thị 20</option>
+            </select>
+        </div>
+        <div class="col-md-6 text-end">
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#createModal"> + Tạo sản phẩm mới</button>
+            <button class="btn btn-success" onclick="exportCSV()">Export CSV</button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-bordered table-hover align-middle bg-white">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Hình ảnh</th>
+                    <th class="sortable" onclick="handleSort('title')">Tiêu đề <span id="sort-icon-title">↕</span></th>
+                    <th class="sortable" onclick="handleSort('price')">Giá ($) <span id="sort-icon-price">↕</span></th>
+                    <th>Danh mục</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <!-- Data rendered here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center" id="pagination-controls"></ul>
+    </nav>
+</div>
+
+<!-- MODAL 1: EDIT & DETAIL (Yêu cầu 7) -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Chi tiết & Chỉnh sửa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-id">
+                <div class="text-center mb-3"><img id="edit-preview" src="" class="img-thumbnail" style="height:150px"></div>
+                <div class="mb-3"><label class="form-label">Tiêu đề</label><input type="text" id="edit-title" class="form-control"></div>
+                <div class="mb-3"><label class="form-label">Giá ($)</label><input type="number" id="edit-price" class="form-control"></div>
+                <div class="mb-3"><label class="form-label">Mô tả</label><textarea id="edit-desc" class="form-control" rows="3"></textarea></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="updateProduct()">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: CREATE NEW (Yêu cầu 8) -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Tạo sản phẩm mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><label class="form-label">Tiêu đề</label><input type="text" id="create-title" class="form-control" placeholder="Nhập tên SP..."></div>
+                <div class="mb-3"><label class="form-label">Giá ($)</label><input type="number" id="create-price" class="form-control" value="10"></div>
+                <div class="mb-3"><label class="form-label">Mô tả</label><textarea id="create-desc" class="form-control" rows="3"></textarea></div>
+                <div class="mb-3">
+                    <label class="form-label">ID Danh mục (1-5)</label>
+                    <input type="number" id="create-catId" class="form-control" value="1">
+                </div>
+                <div class="mb-3"><label class="form-label">Link ảnh (URL)</label><input type="text" id="create-img" class="form-control" value="https://picsum.photos/640/640"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" onclick="createProduct()">Tạo ngay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
